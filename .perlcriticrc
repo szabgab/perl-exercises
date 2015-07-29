@@ -1,0 +1,11 @@
+# please alpha sort config items as you add them
+
+severity = 5
+verbose = 11
+theme = core
+
+[CodeLayout::RequireTrailingCommas]
+severity = 5
+
+[ValuesAndExpressions::ProhibitInterpolationOfLiterals]
+severity = 5
