@@ -48,6 +48,12 @@ sub check_runs {
 		run [$^X, $self->{exe}, $args], \$in, \$out, \$err;
 		my $expected_err = slurp_or("$dir/$run.err");
 		my $expected_out = slurp_or("$dir/$run.out");
+		if ($out ne $expected_out) {
+			$self->fail("\nExpected output:\n----\n$expected_out\n---\n\nReceived:\n---\n$out\n---");
+		}
+		if ($err ne $expected_err) {
+			$self->fail("Expected error:\n$expected_err\nReceived:\n$err");
+		}
 	}
 
 	return;

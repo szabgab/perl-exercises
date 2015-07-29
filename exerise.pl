@@ -34,6 +34,7 @@ sub main {
 	$e->check_files;
 	$e->check_runs;
 	$e->check;
+	say "DONE     $exercise";
 }
 
 sub usage {
