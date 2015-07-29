@@ -6,7 +6,8 @@ use parent 'Exercises';
 
 sub setup {
 	my ($self) = @_;
-	$self->{files} = ['hello_world.pl'];
+	$self->{exe}   = 'hello_world.pl';
+	$self->{files} = [];
 	return;
 }
 
