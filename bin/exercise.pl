@@ -22,19 +22,19 @@ sub main {
 	my $exercise = shift @ARGV;
 	$exercise =~ s{\/$}{};
 	die "Exercise '$exercise' does not exist\n" if not -d $exercise;
-	#say "Checking $exercise";
-	##unshift @INC, $exercise;
-	##eval "use Exercise";
-	#die $@ if $@;
-	#my $e = Exercise->new(
-	#	root         => $root,
-	#	exercise     => $exercise,
-	#	solution_dir => $ENV{PM} ? "$root/$exercise/solution" : $root,
-	#);
-	#$e->setup;
-	#$e->check_files;
-	#$e->check_runs;
-	#$e->check;
+	say "Checking $exercise";
+	unshift @INC, $exercise;
+	eval "use Exercise";
+	die $@ if $@;
+	my $e = Exercise->new(
+		root         => $root,
+		exercise     => $exercise,
+		solution_dir => $ENV{PM} ? "$root/$exercise/solution" : $root,
+	);
+	$e->setup;
+	$e->check_files;
+	$e->check_runs;
+	$e->check;
 	say "DONE     $exercise";
 }
 

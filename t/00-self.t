@@ -8,6 +8,7 @@ use lib 'lib';
 use Exercises::Tools qw(get_exercises);
 
 my $script = 'bin/exercise.pl';
+my @exercises = get_exercises('.');
 
 my @cases = (
 	{
@@ -28,11 +29,20 @@ my @cases = (
 		name => 'list',
 		args => ['--list'],
 		in   => '',
-		out => join("\n", get_exercises('.')) . "\n",
+		out => join("\n", @exercises) . "\n",
 		err => '',
 	},
 );
-plan tests => 2 * @cases;
+
+plan tests => 2 * @cases + 2;
+
+# for each exercise
+#     for each case in exercise_name/cases
+##         copy the files from exercise_name/cases/case/*   to a temporary directory
+#         run perl bin/exercise.pl exercise_name
+#            check for ??
+##         remove all the files from . that do not belong there.
+#     for each solution
 
 foreach my $c (@cases) {
 	my $args = 'other';
@@ -42,6 +52,12 @@ foreach my $c (@cases) {
 	is $out, $c->{out}, "stdout of $c->{name}";
 	is $err, $c->{err}, "stderr of $c->{name}";
 };
+
+{
+	my ($out, $err) = run($^X, $script, 'hello_world', '');
+	is $out, qq{Checking hello_world\n};
+	is $err, qq{File 'hello_world.pl' not found. - You need to create a file called 'hello_world.pl'\n};
+}
 
 
 
