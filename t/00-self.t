@@ -2,8 +2,7 @@ use strict;
 use warnings;
 
 use Test::More;
-
-use IPC::Run qw( run );
+use File::Temp qw(tempdir);
 
 my $script = 'bin/exercise.pl';
 
@@ -39,8 +38,7 @@ plan tests => 2 * @cases;
 foreach my $c (@cases) {
 	my $args = 'other';
 	my $in = '';
-	my ($out, $err);
-	run [$^X, $script, @{ $c->{args} }], \$c->{in}, \$out, \$err;
+	my ($out, $err) = run($^X, $script, @{ $c->{args} }, $c->{in});
 	
 	is $out, $c->{out}, "stdout of $c->{name}";
 	is $err, $c->{err}, "stderr of $c->{name}";
@@ -49,4 +47,25 @@ foreach my $c (@cases) {
 
 #is $out, "Checking other\n";
 #ok 1;
+
+sub run {
+	my $in = pop @_;
+	my @args = @_;
+	my $dir = tempdir(CLEANUP => 1);
+	if (open my $fh, '>', "$dir/in") {
+		print $fh $in;
+		close $fh;
+	}
+	system "@args < $dir/in > $dir/out 2> $dir/err";
+	my ($out, $err);
+	if (open my $fh, '<', "$dir/out") {
+		local $/ = undef;
+		$out = <$fh>;
+	}
+	if (open my $fh, '<', "$dir/err") {
+		local $/ = undef;
+		$err = <$fh>;
+	}
+	return $out, $err;
+}
 
