@@ -1,0 +1,4 @@
+1) be able to provide good error reports directing the user to fix their solution.
+2) be able to tests the good error reporst by creating various incorrect solutions and checking if the given error message
+   is what we are expecting.
+
