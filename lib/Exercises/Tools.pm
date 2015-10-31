@@ -3,8 +3,9 @@ use strict;
 use warnings;
 
 use Exporter qw(import);
+use File::Temp qw(tempdir);
 
-our @EXPORT_OK = qw(get_exercises);
+our @EXPORT_OK = qw(get_exercises run);
 
 sub get_exercises {
 	my ($root) = @_;
@@ -20,6 +21,26 @@ sub get_exercises {
 	} readdir $dh;
 }
 
+sub run {
+	my $in = pop @_;
+	my @args = @_;
+	my $dir = tempdir(CLEANUP => 1);
+	if (open my $fh, '>', "$dir/in") {
+		print $fh $in;
+		close $fh;
+	}
+	system "@args < $dir/in > $dir/out 2> $dir/err";
+	my ($out, $err);
+	if (open my $fh, '<', "$dir/out") {
+		local $/ = undef;
+		$out = <$fh>;
+	}
+	if (open my $fh, '<', "$dir/err") {
+		local $/ = undef;
+		$err = <$fh>;
+	}
+	return $out, $err;
+}
 
 1;
 

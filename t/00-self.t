@@ -2,10 +2,9 @@ use strict;
 use warnings;
 
 use Test::More;
-use File::Temp qw(tempdir);
 
 use lib 'lib';
-use Exercises::Tools qw(get_exercises);
+use Exercises::Tools qw(get_exercises run);
 
 my $script = 'bin/exercise.pl';
 my @exercises = get_exercises('.');
@@ -60,28 +59,4 @@ foreach my $c (@cases) {
 }
 
 
-
-#is $out, "Checking other\n";
-#ok 1;
-
-sub run {
-	my $in = pop @_;
-	my @args = @_;
-	my $dir = tempdir(CLEANUP => 1);
-	if (open my $fh, '>', "$dir/in") {
-		print $fh $in;
-		close $fh;
-	}
-	system "@args < $dir/in > $dir/out 2> $dir/err";
-	my ($out, $err);
-	if (open my $fh, '<', "$dir/out") {
-		local $/ = undef;
-		$out = <$fh>;
-	}
-	if (open my $fh, '<', "$dir/err") {
-		local $/ = undef;
-		$err = <$fh>;
-	}
-	return $out, $err;
-}
 
