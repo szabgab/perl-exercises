@@ -14,6 +14,8 @@ sub main {
 		opendir my $dh, $root or die;
 		while (my $entry = readdir $dh) {
 			next if $entry =~ /^\./ or not -d $entry;
+			next if $entry eq 't';
+			next if $entry eq 'bin';
 			say $entry;
 		}
 		exit;

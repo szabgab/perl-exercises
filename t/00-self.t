@@ -25,6 +25,14 @@ my @cases = (
 		out => '',
 		err => qq{Exercise 'other' does not exist\n},
 	},
+	{
+		name => 'list',
+		args => ['--list'],
+		in   => '',
+		out => "hello_world\n",
+		err => '',
+	},
+
 );
 plan tests => 2 * @cases;
 
