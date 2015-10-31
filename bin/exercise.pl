@@ -20,25 +20,26 @@ sub main {
 	}
 	usage() if @ARGV != 1;
 	my $exercise = shift @ARGV;
-	$exercise =~ s/\/$//;
-	say "Checking $exercise";
-	unshift @INC, $exercise;
-	eval "use Exercise";
-	die $@ if $@;
-	my $e = Exercise->new(
-		root         => $root,
-		exercise     => $exercise,
-		solution_dir => $ENV{PM} ? "$root/$exercise/solution" : $root,
-	);
-	$e->setup;
-	$e->check_files;
-	$e->check_runs;
-	$e->check;
+	$exercise =~ s{\/$}{};
+	die "Exercise '$exercise' does not exist\n" if not -d $exercise;
+	#say "Checking $exercise";
+	##unshift @INC, $exercise;
+	##eval "use Exercise";
+	#die $@ if $@;
+	#my $e = Exercise->new(
+	#	root         => $root,
+	#	exercise     => $exercise,
+	#	solution_dir => $ENV{PM} ? "$root/$exercise/solution" : $root,
+	#);
+	#$e->setup;
+	#$e->check_files;
+	#$e->check_runs;
+	#$e->check;
 	say "DONE     $exercise";
 }
 
 sub usage {
-	print <<"END";
+	print STDERR <<"END";
 Usage: $0 EXERCISE
      --list
 END
