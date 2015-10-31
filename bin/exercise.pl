@@ -16,6 +16,7 @@ sub main {
 			next if $entry =~ /^\./ or not -d $entry;
 			next if $entry eq 't';
 			next if $entry eq 'bin';
+			next if $entry eq 'blib';
 			say $entry;
 		}
 		exit;
