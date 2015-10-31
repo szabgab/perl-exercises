@@ -2,7 +2,7 @@ package Exercises;
 use 5.010;
 use strict;
 use warnings;
-use IPC::Run qw( run );
+use Exercises::Tools qw(run);
 
 sub new {
 	my ($class, %args) = @_;
@@ -44,8 +44,7 @@ sub check_runs {
 
 		my $args = slurp_or("$dir/$run.args");
 		my $in   = slurp_or("$dir/$run.in");
-		my ($out, $err);
-		run [$^X, $self->{exe}, $args], \$in, \$out, \$err;
+		my ($out, $err) = run($^X, $self->{exe}, $args, $in);
 		my $expected_err = slurp_or("$dir/$run.err");
 		my $expected_out = slurp_or("$dir/$run.out");
 		if ($out ne $expected_out) {
