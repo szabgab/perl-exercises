@@ -6,9 +6,6 @@ use File::Temp qw(tempdir);
 
 my $script = 'bin/exercise.pl';
 
-#my $args = slurp_or("$dir/$run.args");
-#my $in   = slurp_or("$dir/$run.in");
-
 my @cases = (
 	{
 		name => 'no command line',
