@@ -18,5 +18,6 @@ before_install:
   - cpanm --notest Test::Perl::Critic
   - cpanm --notest Test::Version
 install:
+  - echo "Move on"
 script:
   - prove -l
