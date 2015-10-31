@@ -3,6 +3,8 @@ use strict;
 use warnings;
 use 5.010;
 use Getopt::Long qw(GetOptions);
+use lib 'lib';
+use Exercises::Tools qw(get_exercises);
 
 main();
 
@@ -11,13 +13,8 @@ sub main {
 	my %opt;
 	GetOptions(\%opt, 'list') or usage();
 	if ($opt{list}) {
-		opendir my $dh, $root or die;
-		while (my $entry = readdir $dh) {
-			next if $entry =~ /^\./ or not -d $entry;
-			next if $entry eq 't';
-			next if $entry eq 'bin';
-			next if $entry eq 'blib';
-			say $entry;
+		for my $name (get_exercises($root)) {
+			say $name;
 		}
 		exit;
 	}
