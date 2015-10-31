@@ -4,6 +4,9 @@ use warnings;
 use Test::More;
 use File::Temp qw(tempdir);
 
+use lib 'lib';
+use Exercises::Tools qw(get_exercises);
+
 my $script = 'bin/exercise.pl';
 
 my @cases = (
@@ -25,10 +28,9 @@ my @cases = (
 		name => 'list',
 		args => ['--list'],
 		in   => '',
-		out => "hello_world\n",
+		out => join("\n", get_exercises('.')) . "\n",
 		err => '',
 	},
-
 );
 plan tests => 2 * @cases;
 
@@ -40,6 +42,7 @@ foreach my $c (@cases) {
 	is $out, $c->{out}, "stdout of $c->{name}";
 	is $err, $c->{err}, "stderr of $c->{name}";
 };
+
 
 
 #is $out, "Checking other\n";
