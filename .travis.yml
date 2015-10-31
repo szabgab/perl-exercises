@@ -18,6 +18,6 @@ before_install:
   - cpanm --notest Test::Perl::Critic
   - cpanm --notest Test::Version
 install:
-  - echo "Move on"
+  - echo "Avoid running cpanm installdeps ."
 script:
-  - prove -l
+  - prove -lv
