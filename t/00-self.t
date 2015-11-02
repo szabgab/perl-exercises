@@ -60,6 +60,12 @@ foreach my $c (@cases) {
 	is $err, $c->{err}, "stderr of $c->{name}";
 };
 
+my %SKIP = (
+	hello_world => {
+		01 => 1,
+	},
+);
+
 foreach my $exercise (@exercises) {
 	my $dir = tempdir(CLEANUP => 1);
 	$ENV{EXERCISE_DIR} = $dir;
@@ -69,10 +75,13 @@ foreach my $exercise (@exercises) {
 	is $err, $expected_err, "stderr for $exercise";
 	my @solutions = map { substr $_, length "$exercise/solutions/" } glob "$exercise/solutions/*";
 	foreach my $sol (@solutions) {
-		$ENV{EXERCISE_DIR} = "$exercise/solutions/$sol";
-		my ($out, $err) = run($^X, $script, $exercise, '');
-		is $out, qq{Checking $exercise\nDONE\nCongratulations. You have completed the 'hello_world' exercise.\n}, "stdout for solution $sol of $exercise";
-		is $err, '', "stderr for solution $sol of $exercise";
+		SKIP: {
+			skip "Needs 5.10", 2 if $SKIP{$exercise}{$sol} and $] < 5.010;
+			$ENV{EXERCISE_DIR} = "$exercise/solutions/$sol";
+			my ($out, $err) = run($^X, $script, $exercise, '');
+			is $out, qq{Checking $exercise\nDONE\nCongratulations. You have completed the 'hello_world' exercise.\n}, "stdout for solution $sol of $exercise";
+			is $err, '', "stderr for solution $sol of $exercise";
+		};
 	}
 }
 
