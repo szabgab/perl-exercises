@@ -44,7 +44,7 @@ sub check_test_cases {
 
 		my $args = slurp_or("$dir/$case.args");
 		my $in   = slurp_or("$dir/$case.in");
-		my ($out, $err) = run($^X, $self->{exe}, $args, $in);
+		my ($out, $err) = run($^X, "$self->{solution_dir}/$self->{exe}", $args, $in);
 		my $expected_err = slurp_or("$dir/$case.err");
 		my $expected_out = slurp_or("$dir/$case.out");
 		if ($out ne $expected_out) {

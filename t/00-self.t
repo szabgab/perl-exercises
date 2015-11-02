@@ -36,15 +36,20 @@ my @cases = (
 	},
 );
 
-plan tests => 2 * @cases + 2;
+my $solutions = 0;
+foreach my $exercise (@exercises) {
+	my @sol = glob "$exercise/solutions/*";
+	$solutions += @sol;
+}
 
+plan tests => 2 * @cases + 2 * @exercises + 2 * $solutions;
+	
 # for each exercise
 #     for each case in exercise_name/cases
 ##         copy the files from exercise_name/cases/case/*   to a temporary directory
 #         run perl bin/exercise.pl exercise_name
 #            check for ??
 ##         remove all the files from . that do not belong there.
-#     for each solution
 
 foreach my $c (@cases) {
 	my $args = 'other';
@@ -62,9 +67,13 @@ foreach my $exercise (@exercises) {
 	is $out, qq{Checking $exercise\n}, "stdout for $exercise";
 	my $expected_err = slurp("$exercise/test_cases/0.err");
 	is $err, $expected_err, "stderr for $exercise";
-
+	my @solutions = map { substr $_, length "$exercise/solutions/" } glob "$exercise/solutions/*";
+	foreach my $sol (@solutions) {
+		$ENV{EXERCISE_DIR} = "$exercise/solutions/$sol";
+		my ($out, $err) = run($^X, $script, $exercise, '');
+		is $out, qq{Checking $exercise\nDONE\nCongratulations. You have completed the 'hello_world' exercise.\n}, "stdout for solution $sol of $exercise";
+		is $err, '', "stderr for solution $sol of $exercise";
+	}
 }
-#"$root/$exercise/solution"
-
 
 

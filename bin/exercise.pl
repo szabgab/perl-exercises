@@ -36,7 +36,7 @@ sub main {
 	$e->check_test_cases;
 	$e->check;
 	say 'DONE';
-	say "Congrtatulations. You have completed $exercise";
+	say "Congratulations. You have completed the '$exercise' exercise.";
 }
 
 sub usage {
