@@ -5,10 +5,12 @@ use Test::More;
 use File::Temp qw(tempdir);
 
 use lib 'lib';
-use Exercises::Tools qw(get_exercises run);
+use Exercises::Tools qw(get_exercises run slurp);
 
 my $script = 'bin/exercise.pl';
 my @exercises = get_exercises('.');
+
+diag "Running on perl $]";
 
 my @cases = (
 	{
@@ -53,12 +55,14 @@ foreach my $c (@cases) {
 	is $err, $c->{err}, "stderr of $c->{name}";
 };
 
-{
+foreach my $exercise (@exercises) {
 	my $dir = tempdir(CLEANUP => 1);
 	$ENV{EXERCISE_DIR} = $dir;
-	my ($out, $err) = run($^X, $script, 'hello_world', '');
-	is $out, qq{Checking hello_world\n};
-	is $err, qq{File 'hello_world.pl' not found. - You need to create a file called 'hello_world.pl'\n};
+	my ($out, $err) = run($^X, $script, $exercise, '');
+	is $out, qq{Checking $exercise\n}, "stdout for $exercise";
+	my $expected_err = slurp("$exercise/test_cases/0.err");
+	is $err, $expected_err, "stderr for $exercise";
+
 }
 #"$root/$exercise/solution"
 
