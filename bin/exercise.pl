@@ -1,7 +1,6 @@
 #!/usr/bin/env perl
 use strict;
 use warnings;
-use 5.010;
 use Getopt::Long qw(GetOptions);
 use lib 'lib';
 use Exercises::Tools qw(get_exercises);
@@ -14,7 +13,7 @@ sub main {
 	GetOptions(\%opt, 'list') or usage();
 	if ($opt{list}) {
 		for my $name (get_exercises($root)) {
-			say $name;
+			print "$name\n";
 		}
 		exit;
 	}
@@ -22,7 +21,7 @@ sub main {
 	my $exercise = shift @ARGV;
 	$exercise =~ s{\/$}{};
 	die "Exercise '$exercise' does not exist\n" if not -d $exercise;
-	say "Checking $exercise";
+	print "Checking $exercise\n";
 	unshift @INC, $exercise;
 	eval "use Exercise";
 	die $@ if $@;
@@ -35,8 +34,8 @@ sub main {
 	$e->check_files;
 	$e->check_test_cases;
 	$e->check;
-	say 'DONE';
-	say "Congratulations. You have completed the '$exercise' exercise.";
+	print "DONE\n";
+	print "Congratulations. You have completed the '$exercise' exercise.\n";
 }
 
 sub usage {
