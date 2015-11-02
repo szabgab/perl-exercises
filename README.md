@@ -1,3 +1,6 @@
+###Status
+[![Build Status](https://travis-ci.org/szabgab/perl-exercises.png)](https://travis-ci.org/szabgab/perl-exercises)
+
 Experimental Perl Exercises for http://perlmaven.com/
 =====================
 
