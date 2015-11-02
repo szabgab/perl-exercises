@@ -62,7 +62,7 @@ foreach my $c (@cases) {
 
 my %SKIP = (
 	hello_world => {
-		01 => 1,
+		'01' => 1,
 	},
 );
 
