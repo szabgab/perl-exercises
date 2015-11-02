@@ -2,6 +2,7 @@ use strict;
 use warnings;
 
 use Test::More;
+use File::Temp qw(tempdir);
 
 use lib 'lib';
 use Exercises::Tools qw(get_exercises run);
@@ -53,10 +54,13 @@ foreach my $c (@cases) {
 };
 
 {
+	my $dir = tempdir(CLEANUP => 1);
+	$ENV{EXERCISE_DIR} = $dir;
 	my ($out, $err) = run($^X, $script, 'hello_world', '');
 	is $out, qq{Checking hello_world\n};
 	is $err, qq{File 'hello_world.pl' not found. - You need to create a file called 'hello_world.pl'\n};
 }
+#"$root/$exercise/solution"
 
 
 

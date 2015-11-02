@@ -29,13 +29,14 @@ sub main {
 	my $e = Exercise->new(
 		root         => $root,
 		exercise     => $exercise,
-		solution_dir => $ENV{PM} ? "$root/$exercise/solution" : $root,
+		solution_dir => ($ENV{EXERCISE_DIR} || $root),
 	);
 	$e->setup;
 	$e->check_files;
-	$e->check_runs;
+	$e->check_test_cases;
 	$e->check;
-	say "DONE     $exercise";
+	say 'DONE';
+	say "Congrtatulations. You have completed $exercise";
 }
 
 sub usage {

@@ -5,7 +5,7 @@ use warnings;
 use Exporter qw(import);
 use File::Temp qw(tempdir);
 
-our @EXPORT_OK = qw(get_exercises run);
+our @EXPORT_OK = qw(get_exercises run slurp slurp_or);
 
 sub get_exercises {
 	my ($root) = @_;
@@ -41,6 +41,21 @@ sub run {
 	}
 	return $out, $err;
 }
+
+sub slurp_or {
+	my ($file) = @_;
+	return -e $file ? slurp($file) : '';
+}
+
+sub slurp {
+	my ($file) = @_;
+	open my $fh, '<:encoding(UTF-8)', $file or die;
+	local $/ = undef;
+	my $content = <$fh>;
+	close $fh;
+	return $content;
+}
+
 
 1;
 

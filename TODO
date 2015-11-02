@@ -1,4 +1,10 @@
-1) be able to provide good error reports directing the user to fix their solution.
-2) be able to tests the good error reporst by creating various incorrect solutions and checking if the given error message
+1) be able to provide good error reports directing the user to fix their solution. For each EXERCISE
+   - The existance of required file(s)
+   - Various black-box test cases saved in the EXERCISE/test_cases/ directory
+   - White box test cases ?? 
+   - Check the source code using PPI and other tools (hosted solution so people won't need to install anything beyond perl 5.8
+
+
+2) be able to tests the good error reports by creating various incorrect solutions and checking if the given error message
    is what we are expecting.
 
