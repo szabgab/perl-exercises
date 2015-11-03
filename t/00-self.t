@@ -79,7 +79,7 @@ foreach my $exercise (@exercises) {
 			skip "Needs 5.10", 2 if $SKIP{$exercise}{$sol} and $] < 5.010;
 			$ENV{EXERCISE_DIR} = "$exercise/solutions/$sol";
 			my ($out, $err) = run($^X, $script, $exercise, '');
-			is $out, qq{Checking $exercise\nDONE\nCongratulations. You have completed the 'hello_world' exercise.\n}, "stdout for solution $sol of $exercise";
+			is $out, qq{Checking $exercise\nDONE\nCongratulations. You have completed the '$exercise' exercise.\n}, "stdout for solution $sol of $exercise";
 			is $err, '', "stderr for solution $sol of $exercise";
 		};
 	}
